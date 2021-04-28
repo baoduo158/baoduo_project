@@ -1,0 +1,372 @@
+import pygame
+from pygame import *
+import math
+import random
+
+def main():
+
+	class kaishiyouxi():
+		def __init__(self,screen):
+			self.screen=screen
+			self.panduan='no'
+			self.fanhui_or_not='no'
+			self.zhadanshumuu_dict={}
+			self.zhadanshumuu_dict[0]=_0_picture
+			self.zhadanshumuu_dict[1] = _1_picture
+			self.zhadanshumuu_dict[2] = _2_picture
+			self.zhadanshumuu_dict[3] = _3_picture
+			self.zhadanshumuu_dict[4] = _4_picture
+			self.zhadanshumuu_dict[5] = _5_picture
+			self.zhadanshumuu_dict[6] = _6_picture
+			self.zhadanshumuu_dict[7] = _7_picture
+			self.zhadanshumuu_dict[8] = _8_picture
+			self.zhadanshumuu_dict[9] = _9_picture
+		def kaishi_display(self):
+			self.screen.blit(kaishi_picture,(0,0))
+		def kaishi_panduan(self):
+			self.xy=pygame.mouse.get_pos()
+			if self.xy[0] in range(0,500) and self.xy[1]in range(500-20*5,500-9*5):
+				self.panduan='yes'
+				sound.start_music_play()
+			if self.xy[0]in range(0,500) and self.xy[1]in range(500-20*5-21*5,500-20*5-10*5):
+				self.fanhui_or_not='yes'
+				zhadan_or_08_picture.cishupanduan=1
+				self.screen.blit(kaishi_picture,(0,0))
+
+	class zuobiao():
+		def __init__(self):
+			zuobiao=pygame.mouse.get_pos()
+			self.x=zuobiao[0]
+			self.y=zuobiao[1]
+		def zuobiao_chansheng(self):
+			return math.floor(self.y/50)*10+math.floor(self.x/50)
+
+	class juzhen():
+		def __init__(self):
+			self.fangge_count=100
+		def juzhen_chansheng(self):
+			juzhen_chansheng=[]
+			juzhen_dict={}
+			for i in range(1,101):
+				juzhen_chansheng.append(i)
+			random.shuffle(juzhen_chansheng)
+			for i in range(100):
+				juzhen_dict[i]=juzhen_chansheng[i]
+			return juzhen_dict
+
+	class zhadan_or_08():
+		def __init__(self,screen):
+			self.zhadan_count=10
+			self.screen=screen
+			self.cishupanduan=1
+			self.game='not over'
+			self.panduan='都可'
+			self.panduan_dict={}
+			self.chenggong_sound=1
+			self.panduan2_dict={}
+			for n in range(100):
+				self.panduan_dict[n]=self.panduan
+		def kaishi_zhadangeshu(self):
+			self.xy = pygame.mouse.get_pos()
+			if self.cishupanduan==1:
+				if self.xy[0] in range(0,35*14) and self.xy[1] in range(50,50+35*7):
+					self.zhadan_count=math.floor(self.xy[0]/35)+1+14*math.floor((self.xy[1]-50)/35)
+					start.fanhui_or_not = 'no'
+					self.cishupanduan = 0
+				elif self.xy[0]in range(0,50)and self.xy[1]in range(0,50):
+					self.zhadan_count=99
+					start.fanhui_or_not = 'no'
+					self.cishupanduan = 0
+				elif self.xy[0] in range(450,500) and self.xy[1] in range(0,50):
+					self.zhadan_count=100
+					start.fanhui_or_not = 'no'
+					self.cishupanduan = 0
+				if self.zhadan_count<99 and self.cishupanduan==0:
+					self.screen.blit(zhadangeshu_picture, (0, 0))
+					self.screen.blit(start.zhadanshumuu_dict[math.floor(self.zhadan_count/10)],(330,185))
+					self.screen.blit(start.zhadanshumuu_dict[self.zhadan_count%10],(380,185))
+				if self.zhadan_count==100 and self.cishupanduan==0:
+					self.screen.blit(zhadangeshu_picture, (0, 0))
+					self.screen.blit(_1_picture,(330,185))
+					self.screen.blit(_0_picture,(380,185))
+					self.screen.blit(_0_picture,(380+50,185))
+				if self.zhadan_count==99 and self.cishupanduan==0:
+					self.screen.blit(zhadangeshu_picture, (0, 0))
+					self.screen.blit(_9_picture,(330,185))
+					self.screen.blit(_9_picture,(380,185))
+		def zhadan_or_08_chansheng(self):
+			for o in range(100):
+				if bianhao_chansheng[o] in range(1, self.zhadan_count + 1):
+					self.panduan2_dict[o] = '右可'
+				else:
+					self.panduan2_dict[o] = '不可'
+			if self.game=='not over':
+				self.bianhao_chansheng_new={}
+				for i in range(100):
+					self.count=0
+					self.jiuge=[]
+					if bianhao_chansheng[i] not in range(1,self.zhadan_count+1):
+						if i==0:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i+1])
+							self.jiuge.append(bianhao_chansheng[i+10])
+							self.jiuge.append(bianhao_chansheng[i+11])
+						elif i==9:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i-1])
+							self.jiuge.append(bianhao_chansheng[i+10])
+							self.jiuge.append(bianhao_chansheng[i+9])
+						elif i==90:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i+1])
+							self.jiuge.append(bianhao_chansheng[i-10])
+							self.jiuge.append(bianhao_chansheng[i-9])
+						elif i==99:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i-1])
+							self.jiuge.append(bianhao_chansheng[i-10])
+							self.jiuge.append(bianhao_chansheng[i-11])
+						elif math.floor(i/10)==0:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i+1])
+							self.jiuge.append(bianhao_chansheng[i+10])
+							self.jiuge.append(bianhao_chansheng[i+11])
+							self.jiuge.append(bianhao_chansheng[i-1])
+							self.jiuge.append(bianhao_chansheng[i+9])
+						elif math.floor(i/10)==9:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i+1])
+							self.jiuge.append(bianhao_chansheng[i-10])
+							self.jiuge.append(bianhao_chansheng[i-11])
+							self.jiuge.append(bianhao_chansheng[i-1])
+							self.jiuge.append(bianhao_chansheng[i-9])
+						elif i%10==0:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i+1])
+							self.jiuge.append(bianhao_chansheng[i+10])
+							self.jiuge.append(bianhao_chansheng[i+11])
+							self.jiuge.append(bianhao_chansheng[i-10])
+							self.jiuge.append(bianhao_chansheng[i-9])
+						elif i%10==9:
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i-1])
+							self.jiuge.append(bianhao_chansheng[i+10])
+							self.jiuge.append(bianhao_chansheng[i-11])
+							self.jiuge.append(bianhao_chansheng[i-10])
+							self.jiuge.append(bianhao_chansheng[i+9])
+						else :
+							self.jiuge.append(bianhao_chansheng[i])
+							self.jiuge.append(bianhao_chansheng[i+1])
+							self.jiuge.append(bianhao_chansheng[i+10])
+							self.jiuge.append(bianhao_chansheng[i+11])
+							self.jiuge.append(bianhao_chansheng[i-1])
+							self.jiuge.append(bianhao_chansheng[i+9])
+							self.jiuge.append(bianhao_chansheng[i-9])
+							self.jiuge.append(bianhao_chansheng[i-10])
+							self.jiuge.append(bianhao_chansheng[i-11])
+						for j in self.jiuge:
+							if j in range(1,self.zhadan_count+1):
+								self.count+=1
+						self.bianhao_chansheng_new[i]=self.count
+					else :
+						self.bianhao_chansheng_new[i]='zhadan'
+				for t in range(100):
+					if self.bianhao_chansheng_new[t]=='zhadan':
+						self.bianhao_chansheng_new[t]=zhadan_picture
+					elif self.bianhao_chansheng_new[t]==0:
+						self.bianhao_chansheng_new[t]=dange_picture
+					elif self.bianhao_chansheng_new[t] == 1:
+						self.bianhao_chansheng_new[t] = _1_picture
+					elif self.bianhao_chansheng_new[t]==2:
+						self.bianhao_chansheng_new[t]=_2_picture
+					elif self.bianhao_chansheng_new[t]==3:
+						self.bianhao_chansheng_new[t]=_3_picture
+					elif self.bianhao_chansheng_new[t]==4:
+						self.bianhao_chansheng_new[t]=_4_picture
+					elif self.bianhao_chansheng_new[t] == 5:
+						self.bianhao_chansheng_new[t] = _5_picture
+					elif self.bianhao_chansheng_new[t]==6:
+						self.bianhao_chansheng_new[t]=_6_picture
+					elif self.bianhao_chansheng_new[t]==7:
+						self.bianhao_chansheng_new[t]=_7_picture
+					elif self.bianhao_chansheng_new[t]==8:
+						self.bianhao_chansheng_new[t]=_8_picture
+		def zhadan_or_08_display(self):
+			if self.game=='not over':
+				if self.panduan_dict[weizhi]=='都可':
+					if self.bianhao_chansheng_new[weizhi]!=dange_picture:
+						self.screen.blit(self.bianhao_chansheng_new[weizhi],(weizhi % 10 * 50, math.floor(weizhi / 10) * 50))
+						if self.bianhao_chansheng_new[weizhi]!=zhadan_picture:
+							sound.putong_music_play()
+						self.panduan_dict[weizhi]='不可'
+						self.shibai()
+					else:
+						for weizhi1 in range(100):
+							if self.bianhao_chansheng_new[weizhi1]==dange_picture:
+								self.jiuge1=[]
+								if weizhi1==0:
+									self.jiuge1=[weizhi1,weizhi1+1,weizhi1+10,weizhi1+11]
+								elif weizhi1==9:
+									self.jiuge1=[weizhi1,weizhi1-1,weizhi1+10,weizhi1+9]
+								elif weizhi1==90:
+									self.jiuge1=[weizhi1,weizhi1+1,weizhi1-10,weizhi1-9]
+								elif weizhi1==99:
+									self.jiuge1=[weizhi1,weizhi1-1,weizhi1-10,weizhi1-11]
+								elif math.floor(weizhi1/10)==0:
+									self.jiuge1=[weizhi1,weizhi1-1,weizhi1+1,weizhi1+9,weizhi1+10,weizhi1+11]
+								elif math.floor(weizhi1/10)==9:
+									self.jiuge1=[weizhi1,weizhi1-1,weizhi1+1,weizhi1-9,weizhi1-10,weizhi1-11]
+								elif weizhi1%10==0:
+									self.jiuge1=[weizhi1,weizhi1+1,weizhi1-10,weizhi1-9,weizhi1+10,weizhi1+11]
+								elif weizhi1%10==9:
+									self.jiuge1=[weizhi1,weizhi1-1,weizhi1-10,weizhi1-11,weizhi1+10,weizhi1+9]
+								else:
+									self.jiuge1=[weizhi1,weizhi1-1,weizhi1+1,weizhi1-10,weizhi1-9,
+												 weizhi1-11,weizhi1+9,weizhi1+10,weizhi1+11]
+								for r in self.jiuge1:
+									self.screen.blit(self.bianhao_chansheng_new[r],(r % 10 * 50, math.floor(r / 10) * 50))
+									sound.putong_music_play()
+									self.panduan_dict[r]='不可'
+		def shibai(self):
+			if self.bianhao_chansheng_new[weizhi]==zhadan_picture:
+				self.screen.blit(you_picture, (150, 150))
+				self.screen.blit(xi_picture, (200, 150))
+				self.screen.blit(jie_picture, (250, 150))
+				self.screen.blit(shu_picture, (300, 150))
+				self.screen.blit(an_picture, (100, 350))
+				self.screen.blit(kong_picture, (150, 350))
+				self.screen.blit(ge_picture, (200, 350))
+				self.screen.blit(jian_picture, (250, 350))
+				self.screen.blit(ji_picture, (300, 350))
+				self.screen.blit(xu_picture, (350, 350))
+				if self.bianhao_chansheng_new[weizhi] == zhadan_picture:
+					sound.baozha_music_play()
+				self.game='over'
+		def chenggong(self):
+			if zhadan_or_08_picture.panduan_dict == zhadan_or_08_picture.panduan2_dict and self.chenggong_sound==1:
+				self.screen.blit(gong1_picture, (150, 50))
+				self.screen.blit(xi1_picture, (200, 50))
+				self.screen.blit(ni_picture, (250, 50))
+				self.screen.blit(tiao_picture, (150, 150))
+				self.screen.blit(zhan_picture, (200, 150))
+				self.screen.blit(cheng_picture, (250, 150))
+				self.screen.blit(gong_picture, (300, 150))
+				self.screen.blit(an_picture, (100, 350))
+				self.screen.blit(kong_picture, (150, 350))
+				self.screen.blit(ge_picture, (200, 350))
+				self.screen.blit(jian_picture, (250, 350))
+				self.screen.blit(ji_picture, (300, 350))
+				self.screen.blit(xu_picture, (350, 350))
+				zhadan_or_08_picture.game = 'over'
+				sound.chenggong_music_play()
+				self.chenggong_sound=0
+		def fugai_display(self):
+			if self.game=='not over':
+				for i in range(100):
+					screen.blit(dange_fugai_picture, (i% 10 * 50, math.floor(i / 10) * 50))
+		def hongqi_display(self):
+			if self.game=='not over':
+				if self.panduan_dict[weizhi]=='都可':
+					self.screen.blit(hongqi_picture,(weizhi % 10 * 50, math.floor(weizhi / 10) * 50))
+					pygame.event.wait()
+					self.panduan_dict[weizhi]='右可'
+				elif self.panduan_dict[weizhi]=='右可':
+					self.screen.blit(dange_fugai_picture,(weizhi % 10 * 50, math.floor(weizhi / 10) * 50))
+					pygame.event.wait()
+					self.panduan_dict[weizhi]='都可'
+
+	class music():
+		def baozha_music_play(self):
+			pygame.mixer.init()
+			pygame.mixer.music.load('./saolei/baozha.mp3')
+			pygame.mixer.music.play(0)
+		def putong_music_play(self):
+			pygame.mixer.init()
+			pygame.mixer.music.load('./saolei/0_9.mp3')
+			pygame.mixer.music.play(0)
+		def chenggong_music_play(self):
+			pygame.mixer.init()
+			pygame.mixer.music.load('./saolei/chenggong.mp3')
+			pygame.mixer.music.play(0)
+		def start_music_play(self):
+			pygame.mixer.init()
+			pygame.mixer.music.load('./saolei/tishi.mp3')
+			pygame.mixer.music.play(0)
+
+	zhadan_picture=pygame.image.load('./saolei/zhadan.jpg')
+	dange_picture=pygame.image.load('./saolei/dange.jpg')
+	dange_fugai_picture=pygame.image.load('./saolei/dange-fugai.jpg')
+	_1_picture=pygame.image.load('./saolei/1.jpg')
+	_2_picture=pygame.image.load('./saolei/2.jpg')
+	_3_picture=pygame.image.load('./saolei/3.jpg')
+	_4_picture=pygame.image.load('./saolei/4.jpg')
+	_5_picture=pygame.image.load('./saolei/5.jpg')
+	_6_picture=pygame.image.load('./saolei/6.jpg')
+	_7_picture=pygame.image.load('./saolei/7.jpg')
+	_8_picture=pygame.image.load('./saolei/8.jpg')
+	_9_picture=pygame.image.load('./saolei/9.jpg')
+	_0_picture=pygame.image.load('./saolei/0.jpg')
+	zhadangeshu_picture=pygame.image.load('./saolei/zhadangeshu.jpg')
+	hongqi_picture=pygame.image.load('./saolei/hongqi.jpg')
+	you_picture = pygame.image.load('./saolei/you.png')
+	xi_picture = pygame.image.load('./saolei/xi.png')
+	jie_picture = pygame.image.load('./saolei/jie.png')
+	shu_picture = pygame.image.load('./saolei/shu.png')
+	an_picture= pygame.image.load('./saolei/an.png')
+	kong_picture = pygame.image.load('./saolei/kong.png')
+	ge_picture = pygame.image.load('./saolei/ge.png')
+	jian_picture = pygame.image.load('./saolei/jian.png')
+	ji_picture = pygame.image.load('./saolei/ji.png')
+	xu_picture = pygame.image.load('./saolei/xu.png')
+	gong1_picture = pygame.image.load('./saolei/gong.jpg')
+	xi1_picture = pygame.image.load('./saolei/xi1.jpg')
+	ni_picture = pygame.image.load('./saolei/ni.jpg')
+	tiao_picture = pygame.image.load('./saolei/tiao.jpg')
+	zhan_picture= pygame.image.load('./saolei/zhan.jpg')
+	cheng_picture = pygame.image.load('./saolei/cheng.jpg')
+	gong_picture = pygame.image.load('./saolei/gong1.jpg')
+	kaishi_picture=pygame.image.load('./saolei/kaishi.jpg')
+	pygame.display.set_caption('扫雷')
+	screen=pygame.display.set_mode((500,500))
+	sound = music()
+	bianhao = juzhen()
+	bianhao_chansheng = bianhao.juzhen_chansheng()
+	zhadan_or_08_picture = zhadan_or_08(screen)
+	start = kaishiyouxi(screen)
+	start.kaishi_display()
+	while (1):
+		pygame.display.update()
+		for event in pygame.event.get():
+			if event.type==pygame.QUIT:
+				exit()
+		keypressed1=pygame.mouse.get_pressed(num_buttons=3)
+		if keypressed1==(1,0,0):
+			zhadan_or_08_picture.kaishi_zhadangeshu()
+			pygame.event.wait()
+			start.kaishi_panduan()
+			if start.panduan=='yes':
+				break
+			if start.fanhui_or_not=='yes':
+				continue
+	zhadan_or_08_picture.zhadan_or_08_chansheng()
+	zhadan_or_08_picture.fugai_display()
+	while (1):
+		pygame.display.update()
+		xy = zuobiao()
+		weizhi = xy.zuobiao_chansheng()
+		for event in pygame.event.get():
+			if event.type==QUIT:
+				exit()
+		mouse_move=pygame.mouse.get_pressed(num_buttons=3)
+		if mouse_move==(1,0,0):
+			zhadan_or_08_picture.zhadan_or_08_display()
+			zhadan_or_08_picture.chenggong()
+		elif mouse_move==(0,0,1):
+			zhadan_or_08_picture.hongqi_display()
+			zhadan_or_08_picture.chenggong()
+		if zhadan_or_08_picture.game=='over':
+			keypressd = pygame.key.get_pressed()
+			if keypressd[K_SPACE]:
+				main()
+if __name__=='__main__':
+	main()
